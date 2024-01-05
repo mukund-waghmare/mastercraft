@@ -42,7 +42,6 @@ public class MastercraftApplication {
 		User user=null;
 		user =userRepository.findUserByUserRole(UserRole.Admin);
 		
-		
 		if(user==null)
 		{
 			user= new User();

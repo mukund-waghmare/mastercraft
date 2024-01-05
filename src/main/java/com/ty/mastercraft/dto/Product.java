@@ -25,10 +25,9 @@ public class Product {
 	
 	private double productPrice;
 	
-	@ManyToMany
-	@JoinTable(joinColumns = @JoinColumn(name="product_id"),inverseJoinColumns = @JoinColumn(name="user_id"))
+	@ManyToOne
 	@JsonIgnore
-	private List<User> userList;
+	private User user;
 	
 	@OneToMany(mappedBy = "product")
 	@JsonIgnore
@@ -41,9 +40,6 @@ public class Product {
 	
 	//--------------------------getters and Setters-----------------
 
-	
-    
-	
 	public int getProductId() {
 		return productId;
 	}
@@ -74,13 +70,16 @@ public class Product {
 	}
 
 
-	public List<User> getUserList() {
-		return userList;
+  
+
+
+	public User getUser() {
+		return user;
 	}
 
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 

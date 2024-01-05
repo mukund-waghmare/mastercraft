@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.ty.mastercraft.dto.Orders;
 import com.ty.mastercraft.dto.Product;
+import com.ty.mastercraft.dto.ResponseStructure;
 import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
 import com.ty.mastercraft.repository.UserRepository;
@@ -122,6 +124,13 @@ public class UserDao {
 		return null;
 	}
 	
+	public ShopingCart  getcartByUserId(int passedUserId, int productId)
+	{
+		User user=getUserById(passedUserId);
+		
+		return user.getShopingCart();
+		
+	}
 	
 	
 	
