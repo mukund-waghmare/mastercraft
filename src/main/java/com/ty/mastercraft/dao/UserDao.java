@@ -1,5 +1,6 @@
 package com.ty.mastercraft.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class UserDao {
 	
 	@Autowired
 	UserRepository userRepository;
+	
 	
 	public User saveUser(User PassedUser)
 	{
@@ -96,14 +98,22 @@ public class UserDao {
 	public List<Product> getCartByUserId(int userId)
 	{
 		User user=getUserById(userId);
-		
 		if(user!=null)
 		{
+			System.out.println(user);
 			ShopingCart cart=user.getShopingCart();
 			
+			if(cart!=null)
+			{
 			List<Product> productList=cart.getProductList();
 			
-			return productList;
+			if(!productList.isEmpty())
+			{
+				return productList;
+			}
+			}
+			
+			return null;
 		}
 		
 		return null;
@@ -124,11 +134,36 @@ public class UserDao {
 		return null;
 	}
 	
-	public ShopingCart  getcartByUserId(int passedUserId, int productId)
+	
+	public Product addProductToShopingCart(int productId,int userId)
 	{
-		User user=getUserById(passedUserId);
 		
-		return user.getShopingCart();
+		User user=getUserById(userId);
+		//product repository get product by id
+		
+		List<Product> productList=null;
+		
+		if(user!=null)
+		{
+		
+			if(user.getShopingCart()!=null)
+			{
+				ShopingCart cart=user.getShopingCart();
+				if(cart==null)
+				{
+					cart= new ShopingCart();
+					
+				}
+				List<Product> product=cart.getProductList();
+				if(product==null)
+				{
+					product= new ArrayList();
+				}
+				
+			}
+			
+		}
+		return null;
 		
 	}
 	

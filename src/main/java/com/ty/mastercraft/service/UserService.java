@@ -222,16 +222,16 @@ public class UserService {
 	}
 
 	
-	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(int passedUserId, int productId)
+	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(int passedUserId)
 	{
 		List<Product> shopingCart=userDaoObject.getCartByUserId(passedUserId);
 		
-		if(!shopingCart.isEmpty())
+		if(shopingCart!=null)
 		{
 			ResponseStructure<List<Product>> responseStructure = new ResponseStructure<List<Product>>();
 			
 			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-			responseStructure.setMessage("Login Successfull");
+			responseStructure.setMessage("Success");
 			responseStructure.setData(shopingCart);
 			return new ResponseEntity<ResponseStructure<List<Product>>>(responseStructure,HttpStatus.ACCEPTED);
 			

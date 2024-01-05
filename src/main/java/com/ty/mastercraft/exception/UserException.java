@@ -35,24 +35,18 @@ public class UserException {
 		responseStructure.setData("Invalid Login Credentials");
 		
 		
-		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
-		
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);	
 	}
 	
 	@ExceptionHandler(EmptyCartException.class)
 	public ResponseEntity<ResponseStructure<String>> EmptyCartException(EmptyCartException exception)
 	{
 		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
-		
-		responseStructure.setMessage("Invalid Email or Password");
+		responseStructure.setMessage("Users Cart Is Empty");
 		responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
-		responseStructure.setData("Users Cart Is Empty");
-		
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
-		
 	}
 	
-
 	@ExceptionHandler(NoOrderExistException.class)
 	public ResponseEntity<ResponseStructure<String>> NoOrderExistException(NoOrderExistException exception)
 	{

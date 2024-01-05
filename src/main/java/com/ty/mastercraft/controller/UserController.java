@@ -84,12 +84,12 @@ public class UserController {
 		return userServiceObject.getOrdersByUserId(passedUserId);
 	}
 
-	@GetMapping("/buyProductByUserId/{passedUserId}/{productId}")
+	@GetMapping("/getcartByUserId/{passedUserId}")
 	@Operation(description = "get user Cart",summary = "Cart Fetched Successfully")
 	@ApiResponses(value = {@ApiResponse(description = "Cart Fetched Successfully",responseCode = "201"),@ApiResponse(description = "User Or Product Does Not Exist For Given Id",responseCode = "404")})
-	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(@PathVariable int passedUserId,@PathVariable int productId)
+	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(@PathVariable int passedUserId)
 	{
-		return userServiceObject.getcartByUserId(passedUserId, productId);
+		return userServiceObject.getcartByUserId(passedUserId);
 	}
 	
 	
