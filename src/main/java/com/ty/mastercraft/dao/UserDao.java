@@ -14,6 +14,8 @@ import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
 import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
+import com.ty.mastercraft.repository.ProductRepository;
+import com.ty.mastercraft.repository.ShopingCartRepository;
 import com.ty.mastercraft.repository.UserRepository;
 
 import jakarta.persistence.criteria.Order;
@@ -24,6 +26,10 @@ public class UserDao {
 	@Autowired
 	UserRepository userRepository;
 	
+
+	
+	@Autowired
+	ShopingCartRepository shopingCartRepository;
 	
 	public User saveUser(User PassedUser)
 	{
@@ -139,7 +145,7 @@ public class UserDao {
 	{
 		
 		User user=getUserById(userId);
-		//product repository get product by id
+		
 		
 		List<Product> productList=null;
 		
@@ -167,6 +173,49 @@ public class UserDao {
 		
 	}
 	
+	
+	public ShopingCart addProductToCart(User passedUser,ShopingCart shopingCart)
+	{
+		shopingCartRepository.save(shopingCart);
+		userRepository.save(passedUser);
+		return shopingCart;
+		
+	}
+	
+	
+//	public List<Orders> orderAllProductOfCart(int userId)
+//	{
+//		User user=getUserById(userId);
+//		if(user!=null)
+//		{
+//			ShopingCart cart=user.getShopingCart();
+//			List<Product> product=cart.getProductList();
+//			double totalAmount=0;
+//			
+//			for(Product p:product)
+//			{
+//				totalAmount=totalAmount+p.getProductPrice();
+//			}
+//			
+//			List<Orders> order=user.getOrder();
+//			if(order!=null)
+//			{
+//				order= new ArrayList();
+//			}
+//			
+//			Orders newOrder= new Orders();
+//			newOrder.setOrderList(product);
+//			order.add(newOrder);
+//			
+//			user.setOrder(order);
+//			
+//			userRepository.save(user);
+//			
+//			return order ;
+//			
+//		}
+//		return null;
+//	}
 	
 	
 

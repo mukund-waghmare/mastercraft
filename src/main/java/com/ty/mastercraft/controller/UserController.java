@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ty.mastercraft.dto.Orders;
 import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
+import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
 import com.ty.mastercraft.service.UserService;
 
@@ -91,6 +92,21 @@ public class UserController {
 	{
 		return userServiceObject.getcartByUserId(passedUserId);
 	}
+	
+	
+	//------------------------------------------------------------------------------------------------------------------
+	@PostMapping("/addProductToCart/{userId}/{ProductId}")
+	public ResponseEntity<ResponseStructure<ShopingCart>> addProductToCart(@PathVariable int userId,@PathVariable int ProductId)
+	{
+		return userServiceObject.addProductToCart(userId, ProductId);
+	}
+	
+//	public ResponseEntity<ResponseStructure<List<Orders>>> orderAllProductOfCart(int userId)
+//	{
+//		return userServiceObject.orderAllProductOfCart(userId);
+//	}
+	
+	
 	
 	
 	

@@ -1,5 +1,6 @@
 package com.ty.mastercraft.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ty.mastercraft.dao.ProductDao;
 import com.ty.mastercraft.dao.UserDao;
 import com.ty.mastercraft.dto.Orders;
 import com.ty.mastercraft.dto.Product;
@@ -18,6 +20,7 @@ import com.ty.mastercraft.dto.UserRole;
 import com.ty.mastercraft.exception.EmptyCartException;
 import com.ty.mastercraft.exception.LoginFailedException;
 import com.ty.mastercraft.exception.NoOrderExistException;
+import com.ty.mastercraft.exception.ProductIdNotFoundException;
 import com.ty.mastercraft.exception.UserIdNotFoundException;
 
 @Service
@@ -25,6 +28,9 @@ public class UserService {
 	
 	@Autowired
 	UserDao userDaoObject;
+	
+	@Autowired
+	ProductDao productDaoObject;
 	
 	public ResponseEntity<ResponseStructure<User>> saveUser(User passedUser)
 	{
@@ -243,6 +249,75 @@ public class UserService {
 		}
 		
 	}
+	
+	public ResponseEntity<ResponseStructure<ShopingCart>> addProductToCart(int userId,int ProductId)
+	{
+		User user =userDaoObject.getUserById(userId);
+		
+		if(user!=null)
+		{
+		Product product=productDaoObject.getProductById(ProductId);
+		  if(product!=null)
+		  {
+			  product.setUser(user);
+			  
+			  ShopingCart shopingCart=user.getShopingCart();
+			  List<Product> productList=shopingCart.getProductList();
+			  if(productList==null)
+			  {
+				  productList= new ArrayList();
+			  }
+			  productList.add(product);
+			  
+			  shopingCart.setProductList(productList);
+			  
+			  user.setShopingCart(shopingCart);
+			  
+			 ShopingCart cart= userDaoObject.addProductToCart(user, shopingCart);
+			  
+			  
+				ResponseStructure<ShopingCart> responseStructure = new ResponseStructure<ShopingCart>();
+				
+				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure.setMessage("Success");
+				responseStructure.setData(cart);
+				return new ResponseEntity<ResponseStructure<ShopingCart>>(responseStructure,HttpStatus.ACCEPTED);
+				
+		  }
+		  else
+		  {
+			  throw new ProductIdNotFoundException();
+		  }
+		
+		}
+		else
+		{
+			throw new UserIdNotFoundException();
+		}
+		
+		
+	}
+	
+//	public ResponseEntity<ResponseStructure<List<Orders>>> orderAllProductOfCart(int userId)
+//	{
+//		List<Orders> orderList=userDaoObject.orderAllProductOfCart(userId);
+//		
+//		if(orderList!=null)
+//		{
+//			ResponseStructure<List<Orders>> responseStructure = new ResponseStructure<List<Orders>>();
+//			
+//			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+//			responseStructure.setMessage("Success");
+//			responseStructure.setData(orderList);
+//			return new ResponseEntity<ResponseStructure<List<Orders>>>(responseStructure,HttpStatus.ACCEPTED);
+//			
+//		}
+//		else
+//		{
+//			throw new UserIdNotFoundException();
+//		}
+//	}
+	
 	
 	
 
