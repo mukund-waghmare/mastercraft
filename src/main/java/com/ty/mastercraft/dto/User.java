@@ -38,7 +38,6 @@ public class User {
 	
 	@OneToMany(mappedBy = "user")
 	private List<Orders> order;
-
 	
 	@OneToMany(mappedBy = "reviewer")
 	@JsonIgnore

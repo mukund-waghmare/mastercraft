@@ -19,6 +19,7 @@ import com.ty.mastercraft.exception.ProductIdNotFoundException;
 import com.ty.mastercraft.exception.ProductNameNotFoundException;
 import com.ty.mastercraft.exception.ProductPriceNotFoundException;
 import com.ty.mastercraft.exception.UserIdNotFoundException;
+import com.ty.mastercraft.repository.ShopingCartRepository;
 
 @Service
 public class ProductService {
@@ -28,6 +29,8 @@ public class ProductService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+
 	
 	
 	public ResponseEntity<ResponseStructure<Product>> saveProduct(Product product,int uid){
