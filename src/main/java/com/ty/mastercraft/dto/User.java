@@ -48,6 +48,9 @@ public class User {
 	private ShopingCart shopingCart;
 	
 	@OneToMany(mappedBy = "user")
+	private List<Product> merchantProductList;
+	
+	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private List<Orders> orderList;
 
@@ -125,7 +128,22 @@ public class User {
 		this.orderList = orderList;
 	}
 	
-	
+	public List<Orders> getOrder() {
+		return order;
+	}
+
+	public void setOrder(List<Orders> order) {
+		this.order = order;
+	}
+
+	public List<Product> getMerchantProductList() {
+		return merchantProductList;
+	}
+
+	public void setMerchantProductList(List<Product> merchantProductList) {
+		this.merchantProductList = merchantProductList;
+	}
+
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
