@@ -25,7 +25,6 @@ public class UserException {
 		
 	}
 	
-	
 	@ExceptionHandler(LoginFailedException.class)
 	public ResponseEntity<ResponseStructure<String>> UserIdNotFoundException(LoginFailedException exception)
 	{
@@ -39,5 +38,29 @@ public class UserException {
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
 		
 	}
+	
+	@ExceptionHandler(EmptyCartException.class)
+	public ResponseEntity<ResponseStructure<String>> EmptyCartException(EmptyCartException exception)
+	{
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
+		
+		responseStructure.setMessage("Invalid Email or Password");
+		responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		responseStructure.setData("Users Cart Is Empty");
+		
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
+		
+	}
+	
 
+	@ExceptionHandler(NoOrderExistException.class)
+	public ResponseEntity<ResponseStructure<String>> NoOrderExistException(NoOrderExistException exception)
+	{
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();	
+		responseStructure.setMessage("Users Not Ordered Anything Yet");
+		responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
+		
+	}
 }

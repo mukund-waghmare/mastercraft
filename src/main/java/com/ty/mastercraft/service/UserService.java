@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ty.mastercraft.dao.UserDao;
 import com.ty.mastercraft.dto.Orders;
+import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
+import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
 import com.ty.mastercraft.dto.UserRole;
+import com.ty.mastercraft.exception.EmptyCartException;
 import com.ty.mastercraft.exception.LoginFailedException;
+import com.ty.mastercraft.exception.NoOrderExistException;
 import com.ty.mastercraft.exception.UserIdNotFoundException;
 
 @Service
@@ -190,12 +195,12 @@ public class UserService {
 		
 		List<Orders> orders=userDaoObject.getOrdersByUserId(passedUserId);
 		
-		if(orders!=null)
+		if(!orders.isEmpty())
 		{
 			ResponseStructure<List<Orders>> responseStructure = new ResponseStructure<List<Orders>>();
 			
 			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-			responseStructure.setMessage("Login Successfull");
+			responseStructure.setMessage("Success");
 			responseStructure.setData(orders);
 			
 			return new ResponseEntity<ResponseStructure<List<Orders>>>(responseStructure,HttpStatus.ACCEPTED);
@@ -211,7 +216,30 @@ public class UserService {
 //			return new ResponseEntity<ResponseStructure<List<Orders>>>(responseStructure,HttpStatus.BAD_REQUEST);
 //			
 			
-			throw new UserIdNotFoundException();
+			throw new NoOrderExistException();
+		}
+		
+	}
+
+	
+	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(int passedUserId, int productId)
+	{
+		List<Product> shopingCart=userDaoObject.getCartByUserId(passedUserId);
+		
+		if(!shopingCart.isEmpty())
+		{
+			ResponseStructure<List<Product>> responseStructure = new ResponseStructure<List<Product>>();
+			
+			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+			responseStructure.setMessage("Login Successfull");
+			responseStructure.setData(shopingCart);
+			return new ResponseEntity<ResponseStructure<List<Product>>>(responseStructure,HttpStatus.ACCEPTED);
+			
+		}
+		else
+		{	
+			
+			throw new EmptyCartException();
 		}
 		
 	}

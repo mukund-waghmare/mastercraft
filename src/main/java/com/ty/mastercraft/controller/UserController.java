@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ty.mastercraft.dto.Orders;
+import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
 import com.ty.mastercraft.dto.User;
 import com.ty.mastercraft.service.UserService;
@@ -80,10 +81,29 @@ public class UserController {
 	@ApiResponses(value = {@ApiResponse(description = "Ordered Details Fetched Successfully",responseCode = "201"),@ApiResponse(description = "User Not Exist For Given Id",responseCode = "404")})
 	public ResponseEntity<ResponseStructure<List<Orders>>> getOrdersByUserId(@PathVariable int passedUserId)
 	{
-
 		return userServiceObject.getOrdersByUserId(passedUserId);
-		
 	}
+
+	@GetMapping("/buyProductByUserId/{passedUserId}/{productId}")
+	@Operation(description = "get user Cart",summary = "Cart Fetched Successfully")
+	@ApiResponses(value = {@ApiResponse(description = "Cart Fetched Successfully",responseCode = "201"),@ApiResponse(description = "User Or Product Does Not Exist For Given Id",responseCode = "404")})
+	public ResponseEntity<ResponseStructure<List<Product>>> getcartByUserId(@PathVariable int passedUserId,@PathVariable int productId)
+	{
+		return userServiceObject.getcartByUserId(passedUserId, productId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
