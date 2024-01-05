@@ -1,5 +1,8 @@
 package com.ty.mastercraft.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +34,21 @@ public class ProductService {
 		User user=userDao.getUserById(uid);
 		if(user!=null) {
 			if(user.getRole()==UserRole.Merchant) {
-				ResponseStructure<Product> structure=new ResponseStructure<>();
+	
+				System.out.println(product.getProductName());
 				Product product2=productDao.addProduct(product);
+				System.out.println(product2.getProductName());
 				product2.setUser(user);
 				Product product3=productDao.updateProduct(product2);
+				System.out.println(product3.getProductName());
+				List<Product> products=user.getMerchantProductList();
+				if(products==null) {
+					products=new ArrayList<>();
+				}
+				products.add(product3);
+				User user1=userDao.updateUserById(user, uid);
 				
+				ResponseStructure<Product> structure=new ResponseStructure<>();
 				structure.setStatusCode(HttpStatus.CREATED.value());
 				structure.setMessage("product added successfully");
 				structure.setData(product3);
@@ -98,7 +111,7 @@ public class ProductService {
 			return new ResponseEntity<ResponseStructure<Product>>(structure,HttpStatus.OK);
 		}
 		else {
-			throw new ProductNameNotFoundException("inalid name: "+ name);
+			throw new ProductNameNotFoundException("invalid name: "+ name);
 		}
 	}
 	
@@ -115,6 +128,23 @@ public class ProductService {
 		}
 		else {
 			throw new ProductPriceNotFoundException("invalid price: " + price);
+		}
+	}
+	
+	public ResponseEntity<ResponseStructure<Product>> removeProductById(int pid){
+		Product product=productDao.getProductById(pid);
+		if(product!=null) {
+			Product product2=productDao.removeProduct(pid);
+			ResponseStructure<Product> structure=new ResponseStructure<>();
+			
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("product found successfully");
+			structure.setData(product2);
+			
+			return new ResponseEntity<ResponseStructure<Product>>(structure,HttpStatus.OK);
+		}
+		else {
+			throw new ProductIdNotFoundException("invalid id: "+ pid);
 		}
 	}
 }

@@ -24,7 +24,6 @@ public class Product {
 	private String productName;
 	
 	private double productPrice;
-	
 	@ManyToOne
 	@JsonIgnore
 	private User user;
