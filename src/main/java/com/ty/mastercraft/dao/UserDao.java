@@ -212,8 +212,9 @@ public class UserDao {
 			  if(productListToOrder!=null)
 			  {
 				  Orders order= new Orders();
-
+//				  order.setOrderList(productListToOrder);
 				  order.setUser(user);
+				  orderRepository.save(order);
 				  
 				  List<Orders> ordersList=user.getOrderList();
 				  if(ordersList==null)
@@ -241,8 +242,8 @@ public class UserDao {
 				  }
 				  ordersList.add(order);
 				  user.setOrderList(ordersList);
-				  orderRepository.save(order);
-				  
+
+				  userRepository.save(user);
 				  
 				  
 				  return ordersList;
