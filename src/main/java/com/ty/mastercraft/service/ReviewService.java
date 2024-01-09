@@ -39,48 +39,42 @@ public class ReviewService {
 		
 		User user = userDao.getUserById(user_id);
 		if (user != null & user.getRole() == UserRole.Customer) {
-			List<Orders> orders = user.getOrderList();
-			if (orders.size() > 0) {
-				for (Orders orders2 : orders) {
-					List<Product> products = orders2.getOrderList();
-					if (products.size() > 0) {
-						for (Product product : products) {
-							if (product.getProductId() == product_id) {
-								Review review1 = reviewDao.saveReview(review);
-								List<Review> reviews = user.getReviewList();
-								if (reviews == null) {
-									reviews = new ArrayList<>();
-								}
-								reviews.add(review1);
-								user.setReviewList(reviews);
-								userDao.saveUser(user);
-
-								List<Review> reviews1 = product.getReviewList();
-								if (reviews1 == null) {
-									reviews1 = new ArrayList<>();
-								}
-								reviews1.add(review1);
-								product.setReviewList(reviews1);
-								productDao.addProduct(product);
-
-								ResponseStructure<Review> structure = new ResponseStructure<>();
-								structure.setStatusCode(HttpStatus.CREATED.value());
-								structure.setMessage("review added successfully");
-								structure.setData(review1);
-
-								return new ResponseEntity<ResponseStructure<Review>>(structure, HttpStatus.CREATED);
-							} 
-							else
-								throw new ProductIdNotFoundException("invalid product id: " + product_id);
-						}
-					} 
-					else
-						throw new NoProductOrderedException("no product exist for the order");
+			Product product=productDao.getProductById(product_id);
+			if(product!=null) {
+				review.setProduct(product);
+				List<User> users=review.getReviewer();
+				if(users==null) {
+					users=new ArrayList<>();
 				}
-			} 
-		else
-				throw new NoOrderExistException("before giving review order the product");
-		} 
+				users.add(user);
+				review.setReviewer(users);
+				Review review1=reviewDao.saveReview(review);
+			List<Review> reviews2=user.getReviewList();
+			if (reviews2 == null) {
+				reviews2 = new ArrayList<>();
+			}
+			reviews2.add(review1);
+			user.setReviewList(reviews2);
+			userDao.saveUser(user);
+			List<Review> reviews1 = product.getReviewList();
+			if (reviews1 == null) {
+				reviews1 = new ArrayList<>();
+			}
+			reviews1.add(review1);
+			product.setReviewList(reviews1);
+			productDao.addProduct(product);
+
+			ResponseStructure<Review> structure = new ResponseStructure<>();
+			structure.setStatusCode(HttpStatus.CREATED.value());
+			structure.setMessage("review added successfully");
+			structure.setData(review1);
+
+			return new ResponseEntity<ResponseStructure<Review>>(structure, HttpStatus.CREATED);
+			}
+			else
+				throw new ProductIdNotFoundException("invalid product id: " + product_id);
+	
+				} 
 		
 			throw new UserIdNotFoundException("invalid user id: " + user_id);
 		
