@@ -37,9 +37,10 @@ public class User {
 	private String userAddress;
 	
 	// usercart-list order
-	
+
 	@OneToMany(mappedBy = "user")
 	private List<Orders> order;
+
 	
 	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "review_id"))
@@ -130,13 +131,7 @@ public class User {
 		this.orderList = orderList;
 	}
 	
-	public List<Orders> getOrder() {
-		return order;
-	}
-
-	public void setOrder(List<Orders> order) {
-		this.order = order;
-	}
+	
 
 	public List<Product> getMerchantProductList() {
 		return merchantProductList;
