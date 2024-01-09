@@ -95,10 +95,7 @@ public class UserController {
 	
 	
 
-	@PostMapping("/addProductToCart/userId/{userId}/productId/{ProductId}")
-
-	@PostMapping("/addProductToCart/{userId}/{ProductId}")
-
+	@PostMapping("/addProductToCart/userId/{userId}/productId/{ProductId}")	
 	public ResponseEntity<ResponseStructure<ShopingCart>> addProductToCart(@PathVariable int userId,@PathVariable int ProductId)
 	{
 		return userServiceObject.addProductToCart(userId, ProductId);
