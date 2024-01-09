@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -19,9 +20,10 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderId;
 	
-	@OneToOne
+	@ManyToMany
 	@JsonIgnore
-	private ShopingCart orderList;
+	private List<Product> orderList;
+	// making chenges shoping cart->product List
 	
 	@ManyToOne
 	@JsonIgnore
@@ -35,11 +37,12 @@ public class Orders {
 		this.orderId = orderId;
 	}
 
-	public ShopingCart getOrderList() {
+
+	public List<Product> getOrderList() {
 		return orderList;
 	}
 
-	public void setOrderList(ShopingCart orderList) {
+	public void setOrderList(List<Product> orderList) {
 		this.orderList = orderList;
 	}
 
