@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -39,7 +41,8 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Orders> order;
 	
-	@OneToMany(mappedBy = "reviewer")
+	@ManyToMany(mappedBy = "reviewer")
+	@JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "review_id"))
 	@JsonIgnore
 	private List<Review> reviewList;
 	
