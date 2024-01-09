@@ -1,5 +1,7 @@
 package com.ty.mastercraft.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -27,7 +29,7 @@ public class Review {
 	private Product product;
 	
 	@ManyToMany
-	private User reviewer;
+	private List<User> reviewer;
 
 	public int getReviewId() {
 		return reviewId;
@@ -61,11 +63,13 @@ public class Review {
 		this.product = product;
 	}
 
-	public User getReviewer() {
+	public List<User> getReviewer() {
 		return reviewer;
 	}
 
-	public void setReviewer(User reviewer) {
+	public void setReviewer(List<User> reviewer) {
 		this.reviewer = reviewer;
 	}
+
+	
 }
