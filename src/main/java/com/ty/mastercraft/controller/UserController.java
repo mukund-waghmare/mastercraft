@@ -93,8 +93,10 @@ public class UserController {
 		return userServiceObject.getcartByUserId(passedUserId);
 	}
 	
-	
 
+	//------------------------------------------------------------------------------------------------------------------
+	@Operation(description = "add product to cart",summary = "product added successfully to cart")
+	@ApiResponses(value = {@ApiResponse(description = "product added successfully",responseCode = "201"),@ApiResponse(description = "product Not Found To add In Cart",responseCode = "404")})
 	@PostMapping("/addProductToCart/userId/{userId}/productId/{ProductId}")	
 	public ResponseEntity<ResponseStructure<ShopingCart>> addProductToCart(@PathVariable int userId,@PathVariable int ProductId)
 	{
@@ -104,6 +106,8 @@ public class UserController {
 
 	
 	@PostMapping("/orderAllProductsFromCart/{userId}")
+	@Operation(description = "order successfull",summary = "oder placed successfully")
+	@ApiResponses(value = {@ApiResponse(description = "Order placed Successfully",responseCode = "201"),@ApiResponse(description = "Product Not Found To Order",responseCode = "404")})
 	public ResponseEntity<ResponseStructure<List<Orders>>> orderAllProductOfCart(@PathVariable int userId)
 	{
 		return userServiceObject.orderAllProductOfCart(userId);
