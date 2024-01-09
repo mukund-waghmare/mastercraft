@@ -1,12 +1,16 @@
 package com.ty.mastercraft.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
@@ -24,8 +28,8 @@ public class Review {
 	@ManyToOne
 	private Product product;
 	
-	@ManyToOne
-	private User reviewer;
+	@ManyToMany
+	private List<User> reviewer;
 
 	public int getReviewId() {
 		return reviewId;
@@ -59,15 +63,13 @@ public class Review {
 		this.product = product;
 	}
 
-	public User getReviewer() {
+	public List<User> getReviewer() {
 		return reviewer;
 	}
 
-	public void setReviewer(User reviewer) {
+	public void setReviewer(List<User> reviewer) {
 		this.reviewer = reviewer;
 	}
-	
-	
-	
 
+	
 }

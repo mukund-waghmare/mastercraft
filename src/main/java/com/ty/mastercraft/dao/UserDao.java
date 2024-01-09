@@ -14,9 +14,11 @@ import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
 import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
+
 import com.ty.mastercraft.exception.EmptyCartException;
 import com.ty.mastercraft.exception.UserIdNotFoundException;
 import com.ty.mastercraft.repository.OrderRepository;
+
 import com.ty.mastercraft.repository.ProductRepository;
 import com.ty.mastercraft.repository.ShopingCartRepository;
 import com.ty.mastercraft.repository.UserRepository;
@@ -33,10 +35,12 @@ public class UserDao {
 	
 	@Autowired
 	ShopingCartRepository shopingCartRepository;
+
 	
 	
 	@Autowired
 	OrderRepository orderRepository;
+
 	
 	public User saveUser(User PassedUser)
 	{
@@ -193,7 +197,7 @@ public class UserDao {
 		
 	}
 	
-	
+
 	public List<Orders> orderAllProductOfCart(int userId)
 	{
 		User user=getUserById(userId);
@@ -283,16 +287,49 @@ public class UserDao {
 //			 
 //			order.add(newOrder);
 //			orderRepository.save(newOrder);
+
+//	public List<Orders> orderAllProductOfCart(int userId)
+//	{
+//		User user=getUserById(userId);
+//		if(user!=null)
+//		{
+//			ShopingCart cart=user.getShopingCart();
+//			List<Product> product=cart.getProductList();
+//			double totalAmount=0;
+//			
+//			for(Product p:product)
+//			{
+//				totalAmount=totalAmount+p.getProductPrice();
+//			}
+//			
+//			List<Orders> order=user.getOrder();
+//			if(order!=null)
+//			{
+//				order= new ArrayList();
+//			}
+//			
+//			Orders newOrder= new Orders();
+//			newOrder.setOrderList(product);
+//			order.add(newOrder);
+
 //			
 //			user.setOrder(order);
 //			
 //			userRepository.save(user);
 //			
+
 //			return order ;	
 //		}
 //		
 		return null;
 	}
+
+//			return order ;
+//			
+//		}
+//		return null;
+//	}
+
 	
 	
 

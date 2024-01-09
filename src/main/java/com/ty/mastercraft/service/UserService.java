@@ -20,7 +20,10 @@ import com.ty.mastercraft.dto.UserRole;
 import com.ty.mastercraft.exception.EmptyCartException;
 import com.ty.mastercraft.exception.LoginFailedException;
 import com.ty.mastercraft.exception.NoOrderExistException;
+
 import com.ty.mastercraft.exception.ProductAlreadyExistInCart;
+
+
 import com.ty.mastercraft.exception.ProductIdNotFoundException;
 import com.ty.mastercraft.exception.UserIdNotFoundException;
 
@@ -254,6 +257,7 @@ public class UserService {
 	public ResponseEntity<ResponseStructure<ShopingCart>> addProductToCart(int userId,int ProductId)
 	{
 		User user =userDaoObject.getUserById(userId);
+
 		System.out.println("===================="+user.getUserName()+"=====================");
 
 		if(user!=null)
@@ -270,11 +274,23 @@ public class UserService {
 				  shopingCart= new ShopingCart();
 			  }
 			  
+
+		
+		if(user!=null)
+		{
+		Product product=productDaoObject.getProductById(ProductId);
+		  if(product!=null)
+		  {
+			  product.setUser(user);
+			  
+			  ShopingCart shopingCart=user.getShopingCart();
+
 			  List<Product> productList=shopingCart.getProductList();
 			  if(productList==null)
 			  {
 				  productList= new ArrayList();
 			  }
+
 			  
 			  if(!productList.contains(product))
 			  {
@@ -299,7 +315,24 @@ public class UserService {
 			  responseStructure.setMessage("Success");
 			  responseStructure.setData(cart);
 			  return new ResponseEntity<ResponseStructure<ShopingCart>>(responseStructure,HttpStatus.ACCEPTED);
+
+			  productList.add(product);
+			  
+			  shopingCart.setProductList(productList);
+			  
+			  user.setShopingCart(shopingCart);
+			  
+			 ShopingCart cart= userDaoObject.addProductToCart(user, shopingCart);
+			  
+			  
+				ResponseStructure<ShopingCart> responseStructure = new ResponseStructure<ShopingCart>();
 				
+				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure.setMessage("Success");
+				responseStructure.setData(cart);
+				return new ResponseEntity<ResponseStructure<ShopingCart>>(responseStructure,HttpStatus.ACCEPTED);
+
+	
 		  }
 		  else
 		  {
@@ -315,6 +348,7 @@ public class UserService {
 		
 	}
 	
+
 	public ResponseEntity<ResponseStructure<List<Orders>>> orderAllProductOfCart(int userId)
 	{
 		List<Orders> orderList=userDaoObject.orderAllProductOfCart(userId);
@@ -334,6 +368,27 @@ public class UserService {
 			throw new UserIdNotFoundException();
 		}
 	}
+
+//	public ResponseEntity<ResponseStructure<List<Orders>>> orderAllProductOfCart(int userId)
+//	{
+//		List<Orders> orderList=userDaoObject.orderAllProductOfCart(userId);
+//		
+//		if(orderList!=null)
+//		{
+//			ResponseStructure<List<Orders>> responseStructure = new ResponseStructure<List<Orders>>();
+//			
+//			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+//			responseStructure.setMessage("Success");
+//			responseStructure.setData(orderList);
+//			return new ResponseEntity<ResponseStructure<List<Orders>>>(responseStructure,HttpStatus.ACCEPTED);
+//			
+//		}
+//		else
+//		{
+//			throw new UserIdNotFoundException();
+//		}
+//	}
+
 	
 	
 	
