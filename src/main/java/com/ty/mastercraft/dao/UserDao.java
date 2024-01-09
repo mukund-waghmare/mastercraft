@@ -216,6 +216,25 @@ public class UserDao {
 				  {
 					  ordersList= new ArrayList<>();
 				  }
+				  else
+				  {
+					  double totalPrice=0;
+					  
+					  for(int i=0;i<ordersList.size();i++)
+					  {
+						List<Product> product= user.getOrderList().get(i).getOrderList();
+						if(product!=null)
+						{
+							for(int j=0;j<product.size();j++)
+							{
+
+								totalPrice=totalPrice+product.get(i).getProductPrice();
+							    
+							}
+							
+						}
+					  }
+				  }
 				  ordersList.add(order);
 				  user.setOrderList(ordersList);
 				  orderRepository.save(order);
