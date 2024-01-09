@@ -37,7 +37,10 @@ public class User {
 	private String userAddress;
 	
 	// usercart-list order
-	
+
+	@OneToMany(mappedBy = "user")
+	private List<Orders> order;
+
 	
 	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "review_id"))
