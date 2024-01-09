@@ -49,4 +49,14 @@ public class ProductException {
 		
 		return new ResponseEntity<ResponseStructure<String>>(structure,HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(NoProductOrderedException.class)
+	public ResponseEntity<ResponseStructure<String>> ProductNotOrder(NoProductOrderedException exception){
+		ResponseStructure<String> structure=new ResponseStructure<>();
+		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(exception.getMessage());
+		structure.setData("not found");
+		
+		return new ResponseEntity<ResponseStructure<String>>(structure,HttpStatus.NOT_FOUND);
+	}
 }

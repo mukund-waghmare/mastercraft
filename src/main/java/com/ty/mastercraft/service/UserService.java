@@ -260,23 +260,7 @@ public class UserService {
 
 		System.out.println("===================="+user.getUserName()+"=====================");
 
-		if(user!=null)
-		{
-		Product product=productDaoObject.getProductById(ProductId);
-		System.out.println("===================="+product.getProductName()+"=====================");
-		  if(product!=null)
-		  {
-			  
-			  ShopingCart shopingCart=user.getShopingCart();
-			  
-			  if(shopingCart==null)
-			  {
-				  shopingCart= new ShopingCart();
-			  }
-			  
-
-		
-		if(user!=null)
+			if(user!=null)
 		{
 		Product product=productDaoObject.getProductById(ProductId);
 		  if(product!=null)
@@ -284,6 +268,10 @@ public class UserService {
 			  product.setUser(user);
 			  
 			  ShopingCart shopingCart=user.getShopingCart();
+			  if(shopingCart==null)
+			  {
+				  shopingCart= new ShopingCart();
+			  }
 
 			  List<Product> productList=shopingCart.getProductList();
 			  if(productList==null)
@@ -316,24 +304,7 @@ public class UserService {
 			  responseStructure.setData(cart);
 			  return new ResponseEntity<ResponseStructure<ShopingCart>>(responseStructure,HttpStatus.ACCEPTED);
 
-			  productList.add(product);
-			  
-			  shopingCart.setProductList(productList);
-			  
-			  user.setShopingCart(shopingCart);
-			  
-			 ShopingCart cart= userDaoObject.addProductToCart(user, shopingCart);
-			  
-			  
-				ResponseStructure<ShopingCart> responseStructure = new ResponseStructure<ShopingCart>();
-				
-				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-				responseStructure.setMessage("Success");
-				responseStructure.setData(cart);
-				return new ResponseEntity<ResponseStructure<ShopingCart>>(responseStructure,HttpStatus.ACCEPTED);
-
-	
-		  }
+			 		  }
 		  else
 		  {
 			  throw new ProductIdNotFoundException();
