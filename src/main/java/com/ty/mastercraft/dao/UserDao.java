@@ -14,6 +14,9 @@ import com.ty.mastercraft.dto.Product;
 import com.ty.mastercraft.dto.ResponseStructure;
 import com.ty.mastercraft.dto.ShopingCart;
 import com.ty.mastercraft.dto.User;
+import com.ty.mastercraft.exception.EmptyCartException;
+import com.ty.mastercraft.exception.UserIdNotFoundException;
+import com.ty.mastercraft.repository.OrderRepository;
 import com.ty.mastercraft.repository.ProductRepository;
 import com.ty.mastercraft.repository.ShopingCartRepository;
 import com.ty.mastercraft.repository.UserRepository;
@@ -31,6 +34,10 @@ public class UserDao {
 	@Autowired
 	ShopingCartRepository shopingCartRepository;
 	
+	
+	@Autowired
+	OrderRepository orderRepository;
+	
 	public User saveUser(User PassedUser)
 	{
 		userRepository.save(PassedUser);
@@ -47,8 +54,12 @@ public class UserDao {
 	{
 		Optional<User> optUser=userRepository.findById(passedId);
 		
-		User user=optUser.get();
-		return user;
+		if(optUser.isPresent())
+		{
+			User user=optUser.get();
+			return user;
+		}
+		return null;
 		
 	}
 	
@@ -183,39 +194,105 @@ public class UserDao {
 	}
 	
 	
-//	public List<Orders> orderAllProductOfCart(int userId)
-//	{
-//		User user=getUserById(userId);
+	public List<Orders> orderAllProductOfCart(int userId)
+	{
+		User user=getUserById(userId);
+		
+		
+		if(user!=null)
+		{  
+			ShopingCart cart=user.getShopingCart();
+			if(cart!=null)
+			{
+			List<Product> productListToOrder=cart.getProductList();
+			  if(productListToOrder!=null)
+			  {
+				  Orders order= new Orders();
+
+				  order.setUser(user);
+				  
+				  List<Orders> ordersList=user.getOrderList();
+				  if(ordersList==null)
+				  {
+					  ordersList= new ArrayList<>();
+				  }
+				  ordersList.add(order);
+				  user.setOrderList(ordersList);
+				  orderRepository.save(order);
+				  
+				  
+				  
+				  return ordersList;
+	
+			  }
+			  else
+			  {
+			    
+			  }
+			
+			
+			}
+			else
+			{
+				throw new EmptyCartException();
+			}
+			
+			
+		}
+		else
+		{
+			throw new UserIdNotFoundException();
+		}
+		
+	
+		
+		
+		
+//		System.out.println("=============================================="+user.getUserEmail());
 //		if(user!=null)
 //		{
 //			ShopingCart cart=user.getShopingCart();
+//			System.out.println("=============================================="+cart.getCartId());
+//			
 //			List<Product> product=cart.getProductList();
 //			double totalAmount=0;
+//			
 //			
 //			for(Product p:product)
 //			{
 //				totalAmount=totalAmount+p.getProductPrice();
+//				System.out.println("================"+p.getProductName()+"======================");
 //			}
 //			
 //			List<Orders> order=user.getOrder();
-//			if(order!=null)
+//
+//			
+//			if(order==null)
 //			{
 //				order= new ArrayList();
+//				
 //			}
-//			
+//		
+//			System.out.println("=========================8888888888888888888=============================================");
 //			Orders newOrder= new Orders();
+//		
 //			newOrder.setOrderList(product);
+//			newOrder.setUser(user);
+//			
+//			
+//			 
 //			order.add(newOrder);
+//			orderRepository.save(newOrder);
 //			
 //			user.setOrder(order);
 //			
 //			userRepository.save(user);
 //			
-//			return order ;
-//			
+//			return order ;	
 //		}
-//		return null;
-//	}
+//		
+		return null;
+	}
 	
 	
 

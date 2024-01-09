@@ -57,4 +57,15 @@ public class UserException {
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
 		
 	}
+	
+	@ExceptionHandler(ProductAlreadyExistInCart.class)
+	public ResponseEntity<ResponseStructure<String>> productAlreadyExistInCart(ProductAlreadyExistInCart exception)
+	{
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();	
+		responseStructure.setMessage("Product Already Exist In Cart");
+		responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.BAD_REQUEST);
+		
+	}
 }
