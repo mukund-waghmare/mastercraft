@@ -41,7 +41,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Orders> order;
 	
-	@ManyToMany(mappedBy = "reviewer")
+	@ManyToMany
 	@JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "review_id"))
 	@JsonIgnore
 	private List<Review> reviewList;
